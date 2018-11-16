@@ -1,0 +1,4 @@
+zhihu.html  为静态获取
+
+zhihu01.html  为动态获取 ， 但是会有跨域问题，所以在浏览器上图片有些显示不出来。 
+              我用的解决方案是创建一个快捷浏览器 在目标那加上--disable-web-security --user-data-dir= d:\xxx 来解决
