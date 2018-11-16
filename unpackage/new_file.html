@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet"/>
+	<link href="css/icons-extra.css" rel="stylesheet" />
+</head>
+<body>
+		<div class="mui-input-group">
+	  <div class="mui-input-row">
+		<label>字段1：</label>
+		<input type="text" class="mui-input-clear" id="col1" placeholder="请输入">
+	  </div>
+	  <div class="mui-input-row">
+		<label>字段2：</label>
+		<input type="text" class="mui-input-clear" id="col2" placeholder="请输入">
+	  </div>
+	  <div class="mui-input-row">
+		<label>字段3：</label>
+		<input type="text" class="mui-input-clear" id="col3" placeholder="请输入">
+	  </div>
+	  <input type="button" value="提交"  onclick="show()" />
+	</div>
+	<script>
+		show(){
+			var check = true;
+			mui(".mui-input-group input").each(function () {
+			  //若当前input为空，则alert提醒
+			  if(!this.value||trim(this.value)==""){
+				var label = this.previousElementSibling;
+				mui.alert(label.innerText+"不允许为空");
+				check = false;
+				return false;
+			  }
+			});
+		}
+	</script>
+	<script src="js\" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	mui.init()
+	</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<meta http-equiv="Access-Control-Allow-Origin" content="">
+		<meta http-equiv="content-security-policy">
+	</head>
+
+	<body>
+<!-- 主页面标题 -->
+			<header class="mui-bar mui-bar-nav">
+			  <a id="left-menu" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+			  <h1 class="mui-title">知乎日报</h1>
+			</header>
+			<!-- 主页面内容容器 -->
+			<div class="mui-content mui-scroll-wrapper">
+			  <div class="mui-scroll">
+				  
+				<!-- 主界面具体展示内容 -->
+				
+				<div id="slider" class="mui-slider" >
+					<div class="mui-slider-group mui-slider-loop" id="img">
+					</div>
+					<div class="mui-slider-indicator" id="imgtitle">
+					</div>
+				</div>
+				
+				<ul class="mui-table-view" id="content">
+					
+				</ul>
+				
+			  </div>
+			</div>  
+		  </div>
+		</div>
+		
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			$(function(){
+				
+				$(".mui-pull-left").on('tap',function(event){
+					mui('.mui-off-canvas-wrap').offCanvas('show');
+				});
+				
+				//激活滑动
+				mui('.mui-scroll-wrapper').scroll();
+				
+			});
+		</script>
+		<script type="text/javascript">
+			//加载数据
+			$.ajax({
+                url : "https://news-at.zhihu.com/api/4/news/latest",
+                type : "get",
+                dataType : "json",                
+                success: function(res, status, xhr){
+					var $cn = $("#content");
+					var $img = $("#img");
+					var $imgtitle = $("#imgtitle");
+					
+					for (var i = 0; i < res.stories.length; i++) {
+						$cn.append(
+						"<li class='mui-table-view-cell mui-media'>" + 
+						"	<a href='' id='"+ res.stories[i].id +"'>" + 
+						"		<img class='mui-media-object mui-pull-left' src='"+ res.stories[i].images +"'>" + 
+						"		<div class='mui-media-body'><p class='mui-ellipsis'>" + 
+						res.stories[i].title +
+						"</p>	</div>" + 
+						"	</a>" + 
+						"</li>"
+						);
+						
+						
+					}
+					
+					for (var i = 0; i < res.top_stories.length; i++) {
+						
+						if (i == 0 || i == (res.top_stories.length-1)) {
+							if (i == 0) {
+								$img.append(
+								"<div class='mui-slider-item mui-slider-item-duplicate'>" +
+								"  <a href='#'>" +
+								"	<img src='"+ res.top_stories[(res.top_stories.length-1)].image +"'>" +
+								"  </a>" +
+								"</div>"
+								);
+								
+								$img.append(
+								"<div class='mui-slider-item'>" +
+								"  <a href='#'>" +
+								"	<img src='"+ res.top_stories[i].image +"'>" +
+								"  </a>" +
+								"</div>"
+								);
+								
+								
+								$imgtitle.append(
+								"<div class='mui-indicator mui-active'></div>"
+								);
+							} else {
+								$img.append(
+								"<div class='mui-slider-item'>" +
+								"  <a href='#'>" +
+								"	<img src='"+ res.top_stories[i].image +"'>" +
+								"  </a>" +
+								"</div>"
+								);
+								
+								$img.append(
+								"<div class='mui-slider-item mui-slider-item-duplicate'>" +
+								"  <a href='#'>" +
+								"	<img src='"+ res.top_stories[0].image +"'>" +
+								"  </a>" +
+								"</div>"
+								);
+								
+								$imgtitle.append(
+								"<div class='mui-indicator'></div>"
+								);
+							}
+							
+						} else {
+							$img.append(
+							"<div class='mui-slider-item'>" +
+							"  <a href='#'>" +
+							"	<img src='"+ response.top_stories[i].image +"'>" +
+							"  </a>" +
+							"</div>"
+							);
+							
+							$imgtitle.append(
+							"<div class='mui-indicator'></div>"
+							);
+						}
+						
+					}
+					
+					//获得slider插件对象
+					var gallery = mui('.mui-slider');
+					gallery.slider({
+					  interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+					});
+					
+					//添加获取ID并跳转
+					$("li").on('tap',function(el) {
+						var newsid = $(this).children("a").prop("id");
+						mui.openWindow({
+							url:"journalism.html",
+							id:"info",
+							extras:{
+								newid:newsid
+							}
+						});
+					});
+                }
+            });
+			
+		</script>
+	</body>
+
+</html>
